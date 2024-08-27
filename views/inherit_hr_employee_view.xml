@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.view.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//sheet" position="before">
+                        <header>
+                            <button name="%(action_account_payment_employee)d" type="action" string="Payer Salaire du mois" class="oe_highlight" attrs="{'invisible' : [('is_active', '=', False)]}"/>
+                        </header>
+                    </xpath>
+                    <xpath expr="//notebook/page[@name='hr_settings']/group[1]/group[1]" position="after">
+                        <group string="Contrat">
+                            <field name="monthly_salary"/>
+                            <field name="hiring_date"/>
+                            <field name="end_contract_date"/>
+                            <field name="is_active" string="Actif"/>
+                        </group>
+                    </xpath>
+                    <xpath expr="//button[@name='toggle_active']" position="before">
+                        <button 
+                            class="oe_stat_button" 
+                            name="show_hr_salary_line" 
+                            type="object" 
+                            icon="fa-money">
+                            <field name="unpaid_salary" widget="statinfo" string="Salaire"/>
+                        </button>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,140 @@
+<odoo>
+    <data>
+        <menuitem 
+            id="menu_hr_salary_root" 
+            name="Salaire"
+            groups="hr.group_hr_manager,hr.group_hr_user,base.group_user"
+            web_icon="index_simple_salary,static/description/icon.png"
+            sequence="99"/>
+
+        <menuitem
+            id="menu_hr_salary_main"
+            name="Salaires"
+            parent="menu_hr_salary_root"
+            groups="hr.group_hr_manager,hr.group_hr_user,base.group_user"
+            sequence="0"/>
+
+        <!-- Tree View -->
+        <record id="view_hr_salary_tree" model="ir.ui.view">
+            <field name="name">hr.salary.tree</field>
+            <field name="model">hr.salary</field>
+            <field name="arch" type="xml">
+                <tree string="Salaires employé" create="false" import="false" delete="false">
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="total_base_amount"/>
+                    <field name="total_advance_amount"/>
+                    <field name="total_other_deductions_amount"/>
+                    <field name="total_net_payable"/>
+                    <field name="total_paid_amount"/>
+                    <field name="total_remaining_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_hr_salary_form" model="ir.ui.view">
+            <field name="name">hr.salary.form</field>
+            <field name="model">hr.salary</field>
+            <field name="arch" type="xml">
+                <form string="Salaire employé" create="false" edit="false" delete="false">
+                    <sheet>
+                        <div class="oe_title" style="text-align: center; margin: 20px 0;">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <field name="salary_line_ids" readonly="1">
+                            <!-- <tree string="Slaires des employés" editable="false" create="false" delete="false"> -->
+                            <tree string="Slaires des employés">
+                                <field name="employee_id"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="base_amount"/>
+                                <field name="advance_type"/>
+                                <field name="advance_amount" sum="Amount avance"/>
+                                <field name="other_deductions"/>
+                                <field name="other_deductions_amount" sum="Montant autres déduction"/>
+                                <field name="net_payable" sum="Net à payer"/>
+                                <field name="paid_amount" sum="Montant à payer"/>
+                                <field name="remaining_amount" sum="Reste à payer"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <!-- <record id="menu_hr_salary" model="ir.ui.menu">
+            <field name="name">Salaires</field>
+            <field name="parent_id" ref="hr.menu_hr_root"/>
+            <field name="action" ref="action_hr_salary"/>
+            <field name="sequence" eval="10"/>
+        </record> -->
+
+        <record id="open_view_hr_salary_list_my" model="ir.actions.act_window">
+            <field name="name">Salaires</field>
+            <field name="res_model">hr.salary</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="view_hr_salary_tree"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Pas de salaires
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_view_hr_salary"
+            action="open_view_hr_salary_list_my"
+            parent="menu_hr_salary_main"
+            sequence="99"
+            />
+
+        <!-- Action -->
+        <!-- <record id="open_view_hr_salary_tree" model="ir.actions.act_window">
+            <field name="name">Salaires employés</field>
+            <field name="res_model">hr.salary</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_salary_tree"/>
+        </record> -->
+
+        <!-- Form View -->
+        <record id="view_hr_salary_lin_form" model="ir.ui.view">
+            <field name="name">hr.salary.line.form</field>
+            <field name="model">hr.salary.line</field>
+            <field name="arch" type="xml">
+                <form string="Ligne de salaire" edit="false">
+                    <sheet>
+                        <group>
+                            <group string="Information">
+                                <field name="salary_id" invisible="1"/>
+                                <field name="salary_line_wiz_id" invisible="1"/>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="start_date" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
+                                <field name="base_amount" readonly="1"/>
+                                <field name="state" readonly="1"/>
+                            </group>
+                            <group string="Supplémentaire">
+                                <field name="advance_type" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="advance_amount" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="other_deductions" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="other_deductions_amount" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="net_payable" readonly="1"/>
+                                <field name="paid_amount" readonly="1"/>
+                                <field name="remaining_amount" readonly="1"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_pay" type="object" string="Payer" class="oe_highlight" attrs="{'invisible' : [('state', '=', 'paid')]}"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

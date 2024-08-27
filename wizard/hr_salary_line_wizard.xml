@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_salary_line_wizard_form" model="ir.ui.view">
+            <field name="name">hr.salary.line.wizard.form</field>
+            <field name="model">hr.salary.line.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="hr_salary_line_ids" nolabel="1">
+                            <tree create="false" delete="false">
+                                <field name="employee_id" readonly="1"/>
+                                <field name="start_date" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
+                                <field name="base_amount" readonly="1"/>
+                                <field name="advance_type" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="advance_amount" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="other_deductions" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="other_deductions_amount" attrs="{'readonly' : [('state', '=', 'paid')]}"/>
+                                <field name="net_payable" readonly="1"/>
+                                <field name="paid_amount" readonly="1"/>
+                                <field name="remaining_amount" readonly="1"/>
+                                <field name="state" readonly="1"/>
+                                <!-- <button name="action_pay" type="object" string="PAYER" class="btn-primary" attrs="{'invisible' : [('state', '=', 'paid')]}"/> -->
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Fermer" class="btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
